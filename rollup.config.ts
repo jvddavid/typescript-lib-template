@@ -1,5 +1,6 @@
 import terser from '@rollup/plugin-terser'
 import typescript from '@rollup/plugin-typescript'
+import { builtinModules } from 'node:module'
 import { defineConfig } from 'rollup'
 import pkg from './package.json' assert { type: 'json' }
 
@@ -15,12 +16,6 @@ export default defineConfig({
       file: 'dist/index.js',
       format: 'esm',
       compact: true
-    },
-    {
-      file: 'dist/index.umd.js',
-      format: 'umd',
-      compact: true,
-      name: pkg.name
     }
   ],
   plugins: [
@@ -28,5 +23,9 @@ export default defineConfig({
       tsconfig: './tsconfig.json'
     }),
     terser()
-  ]
+  ],
+  external: Object.keys(pkg.dependencies ?? {}).concat(
+    builtinModules,
+    builtinModules.map(module => `node:${module}`)
+  )
 })

@@ -51,6 +51,7 @@
     "typescript": "^5.5.3",
     "tslib": "^2.6.3"
   },
+  "dependencies": {},
   "scripts": {
     "prepublishOnly": "npm run lint && npm run test && npm run build",
     "build:types": "dts-bundle-generator --project ./tsconfig.json ./src/index.ts -o ./dist/index.d.ts",
